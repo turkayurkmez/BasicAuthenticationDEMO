@@ -1,3 +1,4 @@
+using BasicAuthenticationDEMO.CustomAuthentication;
 using BasicAuthenticationDEMO.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -21,6 +22,17 @@ namespace BasicAuthenticationDEMO
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<DemoDbContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("demoDb")));
+
+            services.AddCors(x =>
+                x.AddPolicy("AllowAll", x =>
+                {
+                    x.AllowAnyOrigin();
+                    x.AllowAnyMethod();
+                    x.AllowAnyHeader();
+                })
+            );
+
+            services.AddAuthentication("Basic").AddScheme<BasicAuthenticationOption, BasicAuthenticationHandler>("Basic", null);
             services.AddControllers();
         }
 
