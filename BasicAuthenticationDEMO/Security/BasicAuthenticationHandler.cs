@@ -1,10 +1,8 @@
 ﻿using BasicAuthenticationDEMO.Models;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Security.Claims;
@@ -13,11 +11,11 @@ using System.Text.Encodings.Web;
 
 using System.Threading.Tasks;
 
-namespace BasicAuthenticationDEMO.CustomAuthentication
+namespace BasicAuthenticationDEMO.Security
 {
     public class BasicAuthenticationHandler : AuthenticationHandler<BasicAuthenticationOption>
     {
-        DemoDbContext context;
+        private readonly DemoDbContext context;
         public BasicAuthenticationHandler(IOptionsMonitor<BasicAuthenticationOption> options,
                                           ILoggerFactory logger,
                                           UrlEncoder urlEncoder,
@@ -30,36 +28,38 @@ namespace BasicAuthenticationDEMO.CustomAuthentication
         {
             if (!Request.Headers.ContainsKey("Authorization"))
             {
-
+                return Task.FromResult(AuthenticateResult.NoResult());
             }
             if (!AuthenticationHeaderValue.TryParse(Request.Headers["Authorization"], out AuthenticationHeaderValue headerValue))
             {
+                return Task.FromResult(AuthenticateResult.NoResult());
 
             }
 
-            if (headerValue.Scheme.Equals("Basic", StringComparison.OrdinalIgnoreCase))
+            if (!headerValue.Scheme.Equals("Basic", StringComparison.OrdinalIgnoreCase))
             {
+                return Task.FromResult(AuthenticateResult.NoResult());
 
             }
 
             byte[] headerValueBytes = Convert.FromBase64String(headerValue.Parameter);
-            var mailPassword = Encoding.UTF8.GetString(headerValueBytes);
-            var parts = mailPassword.Split(':');
+            string mailPassword = Encoding.UTF8.GetString(headerValueBytes);
+            string[] parts = mailPassword.Split(':');
             string mail = parts[0];
             string password = parts[1];
 
-            var user = context.Users.FirstOrDefault(x => x.Email == mail && x.Password == x.Password);
+            User user = context.Users.FirstOrDefault(x => x.Email == mail && x.Password == x.Password);
 
 
-            var claims = new[]
+            Claim[] claims = new[]
             {
                 new Claim(ClaimTypes.Name, mail),
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
             };
 
-            var identity = new ClaimsIdentity(claims, Scheme.Name);
-            var principal = new ClaimsPrincipal(identity);
-            var ticket = new AuthenticationTicket(principal, Scheme.Name);
+            ClaimsIdentity identity = new ClaimsIdentity(claims, Scheme.Name);
+            ClaimsPrincipal principal = new ClaimsPrincipal(identity);
+            AuthenticationTicket ticket = new AuthenticationTicket(principal, Scheme.Name);
             return Task.FromResult(AuthenticateResult.Success(ticket));
         }
     }

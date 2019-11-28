@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 
-namespace BasicAuthenticationDEMO.CustomAuthentication
+namespace BasicAuthenticationDEMO.Security
 {
     public class BasicAuthenticationOption : AuthenticationSchemeOptions
     {

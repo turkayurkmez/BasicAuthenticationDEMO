@@ -1,6 +1,5 @@
 ﻿using BasicAuthenticationDEMO.Models;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -31,7 +30,7 @@ namespace BasicAuthenticationDEMO.Controllers
 
         // GET: api/Users/5
         [Authorize(AuthenticationSchemes = "Basic")]
-        [HttpGet("{id}")]       
+        [HttpGet("{id}")]
         public async Task<ActionResult<User>> GetUser(Guid id)
         {
             if (!ModelState.IsValid)
@@ -39,8 +38,8 @@ namespace BasicAuthenticationDEMO.Controllers
                 return BadRequest();
             }
 
-            var identity = User.Identity as ClaimsIdentity;
-            var currentUserId = identity.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+            ClaimsIdentity identity = User.Identity as ClaimsIdentity;
+            string currentUserId = identity.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
 
             if (currentUserId != id.ToString())
             {

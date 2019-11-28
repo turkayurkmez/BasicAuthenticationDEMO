@@ -1,5 +1,5 @@
-using BasicAuthenticationDEMO.CustomAuthentication;
 using BasicAuthenticationDEMO.Models;
+using BasicAuthenticationDEMO.Security;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
