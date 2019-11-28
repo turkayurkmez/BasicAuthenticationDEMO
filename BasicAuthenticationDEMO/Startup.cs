@@ -1,5 +1,6 @@
 using BasicAuthenticationDEMO.CustomAuthentication;
 using BasicAuthenticationDEMO.Models;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -33,6 +34,7 @@ namespace BasicAuthenticationDEMO
             );
 
             services.AddAuthentication("Basic").AddScheme<BasicAuthenticationOption, BasicAuthenticationHandler>("Basic", null);
+            services.AddTransient<IAuthenticationHandler, BasicAuthenticationHandler>();
             services.AddControllers();
         }
 
@@ -45,7 +47,7 @@ namespace BasicAuthenticationDEMO
             }
 
             app.UseHttpsRedirection();
-
+            app.UseCors("AllowAll");
             app.UseRouting();
 
             app.UseAuthorization();

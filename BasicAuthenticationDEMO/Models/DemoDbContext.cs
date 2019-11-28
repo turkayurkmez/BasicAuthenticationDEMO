@@ -11,10 +11,16 @@ namespace BasicAuthenticationDEMO.Models
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<User>()
-                        .HasData(
-                new User { UserName = "demouser", Password = "demouser1", Email = "demo@user.com", Name = "demo", LastName = "user", Id = Guid.NewGuid() }
-                );
+            modelBuilder.Entity<User>().
+                HasData(new User
+                {
+                    UserName = "demouser",
+                    Password = "demouser1",
+                    Email = "demo@user.com",
+                    Name = "demo",
+                    LastName = "user",
+                    Id = Guid.NewGuid()
+                });
         }
         public DbSet<User> Users { get; set; }
 

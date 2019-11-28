@@ -28,11 +28,11 @@ namespace BasicAuthenticationDEMO.CustomAuthentication
         }
         protected override Task<AuthenticateResult> HandleAuthenticateAsync()
         {
-            if (!Request.Headers.ContainsKey("Authenticate"))
+            if (!Request.Headers.ContainsKey("Authorization"))
             {
 
             }
-            if (!AuthenticationHeaderValue.TryParse("Authenticate", out AuthenticationHeaderValue headerValue))
+            if (!AuthenticationHeaderValue.TryParse(Request.Headers["Authorization"], out AuthenticationHeaderValue headerValue))
             {
 
             }

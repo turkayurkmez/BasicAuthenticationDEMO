@@ -1,9 +1,12 @@
 ﻿using BasicAuthenticationDEMO.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace BasicAuthenticationDEMO.Controllers
@@ -27,9 +30,23 @@ namespace BasicAuthenticationDEMO.Controllers
         }
 
         // GET: api/Users/5
-        [HttpGet("{id}")]
+        [Authorize(AuthenticationSchemes = "Basic")]
+        [HttpGet("{id}")]       
         public async Task<ActionResult<User>> GetUser(Guid id)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+            var identity = User.Identity as ClaimsIdentity;
+            var currentUserId = identity.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+
+            if (currentUserId != id.ToString())
+            {
+                return BadRequest("Kimliğiniz tespit edilemedi");
+            }
+
             User user = await _context.Users.FindAsync(id);
 
             if (user == null)
