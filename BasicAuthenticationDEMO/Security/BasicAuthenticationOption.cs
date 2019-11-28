@@ -4,5 +4,9 @@ namespace BasicAuthenticationDEMO.Security
 {
     public class BasicAuthenticationOption : AuthenticationSchemeOptions
     {
+        public BasicAuthenticationOption()
+        {
+
+        }
     }
 }

@@ -15,6 +15,7 @@ namespace BasicAuthenticationDEMO.Security
 {
     public class BasicAuthenticationHandler : AuthenticationHandler<BasicAuthenticationOption>
     {
+
         private readonly DemoDbContext context;
         public BasicAuthenticationHandler(IOptionsMonitor<BasicAuthenticationOption> options,
                                           ILoggerFactory logger,
@@ -23,6 +24,7 @@ namespace BasicAuthenticationDEMO.Security
                                           DemoDbContext context) : base(options, logger, urlEncoder, systemClock)
         {
             this.context = context;
+           
         }
         protected override Task<AuthenticateResult> HandleAuthenticateAsync()
         {
