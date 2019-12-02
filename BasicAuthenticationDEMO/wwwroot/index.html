@@ -22,11 +22,11 @@
                         'Authorization': 'Basic ' + btoa(email + ':' + password)
                     },
                     success: function (result) {
-                        // Work with result. Code removed for brevity.
+                        
                     },
                     error: function (err) {
                         if (err.status == 401) {
-                            alert("Either wrong email and password or you are not authorized to access the data!");
+                            alert("Eposta veya şifre hatalı ya da bu sayfaya talep gönderme yetkiniz yok. ");
                         }
                     }
                 });
