@@ -1,0 +1,37 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <input type="button" name="name" value="Test" id="btnTest" />
+    <script src="jquery/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#btnTest').on('click', function () {
+
+                let email = 'demo@user.com';
+                let password = "demouser1";
+                $.ajax({
+                    url: 'https://localhost:44356/api/Users/95ae5c1f-ea18-4867-981a-e448744315fe',
+                    type: "GET",
+                    contentType: "application/json",
+                    dataType: "json",
+                    headers: {
+                        'Authorization': 'Basic ' + btoa(email + ':' + password)
+                    },
+                    success: function (result) {
+                        // Work with result. Code removed for brevity.
+                    },
+                    error: function (err) {
+                        if (err.status == 401) {
+                            alert("Either wrong email and password or you are not authorized to access the data!");
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
