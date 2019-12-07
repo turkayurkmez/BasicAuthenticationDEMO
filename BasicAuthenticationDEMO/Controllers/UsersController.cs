@@ -25,6 +25,13 @@ namespace BasicAuthenticationDEMO.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> GetUsers()
         {
+            User user = new User
+            {
+                Name = "turkay",
+                LastName = "urkmez",
+                Email = "turkay@turkayurkmez.com",
+                UserName = "turkayurkmez"
+            };
             return await _context.Users.ToListAsync();
         }
 
