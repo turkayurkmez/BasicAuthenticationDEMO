@@ -119,7 +119,6 @@ namespace BasicAuthenticationDEMO.Controllers
 
             _context.Users.Remove(user);
             await _context.SaveChangesAsync();
-
             return user;
         }
 

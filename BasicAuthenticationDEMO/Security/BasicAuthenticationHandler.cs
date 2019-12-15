@@ -42,6 +42,7 @@ namespace BasicAuthenticationDEMO.Security
 
             if (!headerValue.Scheme.Equals("Basic", StringComparison.OrdinalIgnoreCase))
             {
+        
                 return Task.FromResult(AuthenticateResult.NoResult());
 
             }
@@ -63,6 +64,8 @@ namespace BasicAuthenticationDEMO.Security
 
             ClaimsIdentity identity = new ClaimsIdentity(claims, Scheme.Name);
             ClaimsPrincipal principal = new ClaimsPrincipal(identity);
+
+
             AuthenticationTicket ticket = new AuthenticationTicket(principal, Scheme.Name);
             return Task.FromResult(AuthenticateResult.Success(ticket));
         }
