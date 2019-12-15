@@ -17,16 +17,16 @@ namespace BasicAuthenticationDEMO.Security
     {
 
         private readonly DemoDbContext context;
-        public BasicAuthenticationHandler(IOptionsMonitor<BasicAuthenticationOption> options, 
+        public BasicAuthenticationHandler(IOptionsMonitor<BasicAuthenticationOption> options,
                                           ILoggerFactory logger,
-                                          UrlEncoder urlEncoder, 
-                                          ISystemClock systemClock, 
-                                          DemoDbContext context) 
+                                          UrlEncoder urlEncoder,
+                                          ISystemClock systemClock,
+                                          DemoDbContext context)
                                          : base(options, logger, urlEncoder, systemClock)
         {
             //kullanacağımız veritabanı nesnesi:
             this.context = context;
-           
+
         }
         protected override Task<AuthenticateResult> HandleAuthenticateAsync()
         {
@@ -42,7 +42,7 @@ namespace BasicAuthenticationDEMO.Security
 
             if (!headerValue.Scheme.Equals("Basic", StringComparison.OrdinalIgnoreCase))
             {
-        
+
                 return Task.FromResult(AuthenticateResult.NoResult());
 
             }
